@@ -1,4 +1,4 @@
-name: autofix.ci # needed to securely identify the workflow
+name: autofix.ci
 
 on:
   pull_request:
@@ -13,7 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-      - run: corepack enable
+      - name: Update Corepack
+        run: npm install -g corepack
+      - name: Verify Corepack Installation
+        run: corepack --version
+      - name: Clear Corepack Cache
+        run: corepack prepare pnpm@latest --activate
       - uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4
         with:
           node-version: 20.5
